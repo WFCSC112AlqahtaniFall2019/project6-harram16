@@ -9,11 +9,21 @@ public:
         value = v;
         next = n;
     }
-private:
+    //Destructor for Node
+    ~Node();
+    //making LinkList a "friend" of Node class
+    friend class LinkedList;
 
+private:
     int value;
     Node* next;
 
 };
+Node::~Node(){
+    cout<<"Node Destructor Called."<<endl;
+    delete next;
+}
+
+
 
 #endif //NODE_H
