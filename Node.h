@@ -10,7 +10,11 @@ public:
         next = n;
     }
     //Destructor for Node
-    ~Node();
+    ~Node(){
+        cout<<"Node Destructor Called."<<endl;
+        delete next;
+        }
+
     //making LinkList a "friend" of Node class
     friend class LinkedList;
 
@@ -19,10 +23,6 @@ private:
     Node* next;
 
 };
-Node::~Node(){
-    cout<<"Node Destructor Called."<<endl;
-    delete next;
-}
 
 
 

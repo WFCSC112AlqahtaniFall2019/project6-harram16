@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
-project(BinaryInsertionSort)
+project(untitled13)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
-add_executable(BinaryInsertionSort InsertionSort.cpp BinaryInsertionSort.cpp LinkedList.cpp LinkedList.h)
+add_executable(untitled13 InsertionSort.cpp BinaryInsertionSort.cpp LinkedList.cpp)

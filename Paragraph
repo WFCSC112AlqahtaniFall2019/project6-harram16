@@ -1,0 +1,6 @@
+The purpose of this project was to test the difference between sorting through the method of insertion sort.
+The results suggested that vectors with the insertion sort are more efficient if the number of elements exceeds around elements.
+The time for a linked lists when sorting grew exponentially as the number of values in the vector grew beyond around 1000.
+The time for the linked list sorting grew constant compared to linked list with the number of nodes in the linked list.
+This is probably due to the way the sorting algorithm works for linked list it takes more time to correctly place the sorted values.
+Meanwhile for vectors it accesses random locations easier. For this type of sort specifically, vectors are more efficient.

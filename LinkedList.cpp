@@ -8,7 +8,6 @@ using namespace std;
 LinkedList::LinkedList() {
     cout<<"Constructor called."<<endl;
     head=new Node;
-    *head=0;
 }
 LinkedList:: LinkedList(const LinkedList &list){
     cout<<"Copy constructor called."<<endl;
@@ -18,13 +17,15 @@ LinkedList:: LinkedList(const LinkedList &list){
         head= nullptr;
     }
     else{
-        head= new Node(list.head->value);//setting the head value to the head of copied linked list
+        head=new Node(list.head->value);//setting the head value to the head of copied linked list
         current=head;
-        Node* copy=current;//creating a new node to put in the copied linked list
+        Node* copy;//creating a new node to put in the copied linked list
+        copy=list.head;
 
         //loops through a while loop until hit end of linked list values to copy
         while(copy!=nullptr){
-            current->next=new Node(copy->next->value);
+            current->next=new Node(current->next->value);
+            current=current->next;
             copy=copy->next;
 
         }
@@ -32,18 +33,12 @@ LinkedList:: LinkedList(const LinkedList &list){
 }
 LinkedList :: ~LinkedList(){
     cout<<"LinkedList Destructor called."<<endl;
-    Node* current=head;
-    Node* next;
-    while(current!= nullptr){
-        next=current->next;
-        delete current;
-        current=next;
-    }
+    delete head;
+
 }
 
 LinkedList &LinkedList:: operator=(const LinkedList &copyList){
     cout<<"Copy Assignment called."<<endl;
-    Node* current;
 
     LinkedList temp(copyList);
 
@@ -52,8 +47,8 @@ LinkedList &LinkedList:: operator=(const LinkedList &copyList){
     return *this;
 }
 void LinkedList:: append(int item) {
-    if (head == nullptr) {
-        head = new Node(item);
+    if (head->value==0) {
+        head->value = item;
     }
     else{
         Node *cursor = head;
@@ -72,9 +67,12 @@ void LinkedList:: printList() const {
         while (cursor != nullptr) {
             cout << cursor->value << endl;
             cursor = cursor->next;
+
         }
+
     }
 }
+//do not need a remove function for insertion sort
 /*bool LinkedList :: remove( int item ) {
       Node * current = head ; 
     Node * previous=head; 
@@ -100,54 +98,39 @@ void LinkedList:: printList() const {
     return false ; // case 4 
 }*/
 
-void LinkedList:: InsertionSort(){
-    Node* current;
-    Node* prev;
 
-    //case1 if list is empty it returns
-    if(head==nullptr){
-        // does nothing because no sorting necessary if there are no nodes
-    }
-    //case 2 if list only has head
-    else if(head->next== nullptr){
+void LinkedList::InsertionSort()//insertion sort function
+{
+    Node* current = new Node();// current to store head
+    current -> next = head;
+    Node* right = head -> next; //looks at next node
+    Node* left = head; //is the next to the left aka the right of the left node
+    Node* location;//saves loc where valInFront points to if in wrong order
 
-        //does nothing because no sorting is necessary if only one node
-    }
-    else {
-        //case 3 if list is longer than just 1 node
-        Node* end;
-        Node* middle=head;
-        Node* left;
-        Node* right=current->next;
+    //only enters if node exists
+    while(right != nullptr){
+        location = current ;
 
-        int counter = 0;//counts the length of the linkedlist
-        current = head;//starting current pointer at head
-        //determining the number of values in the linked list
-        while (current != nullptr) {
-            if(right->value>middle->value){
-                left=middle;
-                middle=left;
-               right=middle->next;
+        //while loop runs until sorted
+        while((location -> next -> value) < (right -> value))
+            location = location -> next;
+
+            //if in correct order move to next node, next both
+            if(left -> value <= right -> value){
+                left = right;
+                right = right -> next;
             }
-            else{
-
-            }
-
-        }
-        current = head;
-        int i=1;
-        while (i<counter) {
-            prev = current;
-            for (int i = 0; i < counter; i++) {
-                if (prev->value > current->value) {
-                    swap(prev->value, current->value);
+            //if not in correct order switches the pointer
+            else{//occurs if in wrong order
+                // insert lead in the spot determined by location
+                left -> next = right -> next;
+                right -> next = location -> next;
+                location -> next = right;
+                right = left -> next;
                 }
-                prev = current;
-                current = current->next;
-
             }
-
-        }
-    }
+    head = current -> next;//temp head becomes first value in list; delete temp head
+    current -> next = nullptr;//setting head node to nullptr
+    delete current;//deleting node at end
 }
 
